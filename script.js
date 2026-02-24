@@ -48,5 +48,3 @@ const game = (() => {
 
     return { makeMove, boardStatus }
 })();
-
-console.log(game.boardStatus());
