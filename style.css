@@ -1,0 +1,26 @@
+#board div {
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-size: 75px;
+    background-color: white;
+}
+
+#board {
+    display: grid;
+    grid-template-rows: 100px 100px 100px;
+    grid-template-columns: 100px 100px 100px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#message {
+    padding: 25px;
+    font-size: 50px;
+}

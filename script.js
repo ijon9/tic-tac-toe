@@ -6,10 +6,17 @@ const game = (() => {
     
     const makeMove = (r, c) => {
         if(board[r][c] !== '' || gameOver) return;
-        if(playerOneTurn) board[r][c] = 'x';
-        else board[r][c] = 'o';
+        if(playerOneTurn) {
+            board[r][c] = 'x';
+            document.getElementById(r+'-'+c).textContent = 'x';
+        }
+        else {
+            board[r][c] = 'o';
+            document.getElementById(r+'-'+c).textContent = 'o';
+        }
         playerOneTurn = !playerOneTurn;
         numTurns++;
+        displayMessage();
     };
 
     const boardStatus = () => {
@@ -46,5 +53,37 @@ const game = (() => {
         return 'continue';
     };
 
-    return { makeMove, boardStatus }
+    const displayMessage = () => {
+        const msgBox = document.getElementById("message");
+        const res = boardStatus();
+        if(res === 'p1') msgBox.textContent = "Player one wins!";
+        else if(res === 'p2') msgBox.textContent = "Player two wins!";
+        else if(res === "draw") msgBox.textContent = "Draw!";
+        else if(playerOneTurn) msgBox.textContent = "Player one's turn";
+        else if(!playerOneTurn) msgBox.textContent = "Player two's turn";
+    }
+
+    const hoverTest = (id) => {
+        const pair = id.split('-');
+        return board[+pair[0]][+pair[1]] === '' && !gameOver;
+    }
+
+    return { makeMove, boardStatus, displayMessage, hoverTest }
 })();
+
+let boxes = document.getElementById('board').childNodes;
+for(let i=0; i<boxes.length; i++) {
+    boxes[i].addEventListener('mouseover', (e) => {
+        if(game.hoverTest(boxes[i].id)) {
+            boxes[i].style.backgroundColor = "rgb(209,227,255)";
+        }
+    });
+    boxes[i].addEventListener('mouseout', (e) => {
+        boxes[i].style.backgroundColor = "white";
+    });
+    boxes[i].addEventListener('click', (e) => {
+        boxes[i].style.backgroundColor = "white";
+    })
+}
+
+game.displayMessage();
